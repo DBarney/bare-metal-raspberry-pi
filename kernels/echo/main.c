@@ -1,4 +1,5 @@
 #include "../../common/common.h"
+#include "../../common/gpio.h"
 
 //-------------------------------------------------------------------------
 int kmain ( void )

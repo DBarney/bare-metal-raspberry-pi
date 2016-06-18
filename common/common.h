@@ -1,7 +1,10 @@
+#ifndef _KERNEL_COMMON
+#define _KERNEL_COMMON
+
+
 extern void PUT32 ( unsigned int, unsigned int );
 extern unsigned int GET32 ( unsigned int );
 extern void dummy ( unsigned int );
-extern void wait ( unsigned int );
 
 #define ARM_TIMER_CTL   (0x2000B408)
 #define ARM_TIMER_CNT   (0x2000B420)
@@ -9,10 +12,6 @@ extern void wait ( unsigned int );
 #define GPFSEL1         (0x20200004)
 #define GPFSEL3         (0x2020000C)
 #define GPFSEL4         (0x20200010)
-#define GPSET0          (0x2020001C)
-#define GPCLR0          (0x20200028)
-#define GPSET1          (0x20200020)
-#define GPCLR1          (0x2020002C)
 #define GPPUD           (0x20200094)
 #define GPPUDCLK0       (0x20200098)
 
@@ -31,8 +30,7 @@ extern void wait ( unsigned int );
 
 
 void init();
-void activity_on();
-void activity_off();
+void busy_wait(unsigned int count);
 
 unsigned int uart_lcr ( void );
 unsigned int uart_recv ( void );
@@ -46,3 +44,5 @@ void  timer_init ( void );
 unsigned int timer_tick ( void );
 
 void print(const char* str);
+
+#endif
