@@ -1,5 +1,7 @@
 #include "common.h"
 #include "gpio.h"
+#include "uart.h"
+#include "wait.h"
 
 // init initializes the raspberry pi to a known state. setups the uart device
 // and then blinks the LED to confirm that everything is correct

@@ -1,7 +1,7 @@
 ARMGNU ?= arm-none-eabi
 COPS = -Wall -Werror -O2 -nostdlib -nostartfiles -ffreestanding
 
-COMMON = $(ROOT)common/common.o $(ROOT)common/gpio.o $(ROOT)common/wait.o $(ROOT)common/periph.o
+LIBS = $(patsubst %, $(ROOT)common/%, $(LINK))
 all : $(DEST)
 
 clean :
@@ -10,11 +10,11 @@ clean :
 	rm -f ./*.elf
 	rm -f ./*.img
 
-$(DEST): $(COMMON) $(NAME).elf
+$(DEST): $(NAME).elf
 	$(ARMGNU)-objcopy $(NAME).elf -O binary $(DEST)
 
-$(NAME).elf: $(OBJECTS)
-	$(ARMGNU)-ld $^ $(patsubst %, $(ROOT)common/%, $(LINK)) -T $(MMAP) -o $@
+$(NAME).elf: $(OBJECTS) $(LIBS)
+	$(ARMGNU)-ld $^ -T $(MMAP) -o $@
 	$(ARMGNU)-objdump -D $(NAME).elf > $(NAME).list
 
 %.o: %.c
