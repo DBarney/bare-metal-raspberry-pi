@@ -95,4 +95,6 @@ void activity_on();
 // turn off the activity LED
 void activity_off();
 
+int gpio_bank(PIN pin, unsigned int config, int which);
+
 #endif

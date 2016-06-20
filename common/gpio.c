@@ -36,40 +36,123 @@
 
 int gpio_configure(PIN pin, unsigned int config)
 {
-  // only let the first 3 bits though as a valid config
-  config = config & 0x7;
-
   unsigned int address = 0;
-  PIN condition = 0;
-  if (pin < GPIO_10) {
-    condition = GPIO_0;
-    address = GPFSEL0;
-  } else if (pin < GPIO_20) {
-    condition = GPIO_10;
-    address = GPFSEL1;
-  } else if (pin < GPIO_30) {
-    condition = GPIO_20;
-    address = GPFSEL2;
-  } else if (pin < GPIO_40) {
-    condition = GPIO_30;
-    address = GPFSEL3;
-  } else if (pin < GPIO_50) {
-    condition = GPIO_40;
-    address = GPFSEL4;
-  } else if (pin <= GPIO_53) {
-    condition = GPIO_50;
-    address = GPFSEL5;
-  } else {
-    return EINVALID;
+  switch (pin)
+  {
+    case GPIO_0:
+    case GPIO_1:
+    case GPIO_2:
+    case GPIO_3:
+    case GPIO_4:
+    case GPIO_5:
+    case GPIO_6:
+    case GPIO_7:
+    case GPIO_8:
+    case GPIO_9:
+      address = GPFSEL0;
+      break;
+    case GPIO_10:
+    case GPIO_11:
+    case GPIO_12:
+    case GPIO_13:
+    case GPIO_14:
+    case GPIO_15:
+    case GPIO_16:
+    case GPIO_17:
+    case GPIO_18:
+    case GPIO_19:
+      address = GPFSEL1;
+      pin <<= 10;
+      break;
+    case GPIO_20:
+    case GPIO_21:
+    case GPIO_22:
+    case GPIO_23:
+    case GPIO_24:
+    case GPIO_25:
+    case GPIO_26:
+    case GPIO_27:
+    case GPIO_28:
+    case GPIO_29:
+      address = GPFSEL2;
+      pin <<= 20;
+      break;
+    case GPIO_30:
+    case GPIO_31:
+    case GPIO_32:
+    case GPIO_33:
+    case GPIO_34:
+    case GPIO_35:
+    case GPIO_36:
+    case GPIO_37:
+    case GPIO_38:
+    case GPIO_39:
+      address = GPFSEL3;
+      pin <<= 30;
+      break;
+    case GPIO_40:
+    case GPIO_41:
+    case GPIO_42:
+    case GPIO_43:
+    case GPIO_44:
+    case GPIO_45:
+    case GPIO_46:
+    case GPIO_47:
+    case GPIO_48:
+    case GPIO_49:
+      address = GPFSEL4;
+      pin <<= 40;
+      break;
+    case GPIO_50:
+    case GPIO_51:
+    case GPIO_52:
+    case GPIO_53:
+      address = GPFSEL5;
+      pin <<= 50;
+      break;
   }
 
-  // shift the config to the right spot with some bits to
-  // blank out the old config
-  unsigned blank = 7;
-  for (; pin & condition; pin >>= 1)
+  unsigned int blank = 7;
+  switch (pin)
   {
-    blank <<= 3;
-    config <<= 3;
+    case GPIO_0:
+      break;
+    case GPIO_1:
+      config <<= 3;
+      blank <<= 3;
+      break;
+    case GPIO_2:
+      config <<= 6;
+      blank <<= 6;
+      break;
+    case GPIO_3:
+      config <<= 9;
+      blank <<= 9;
+      break;
+    case GPIO_4:
+      config <<= 12;
+      blank <<= 12;
+      break;
+    case GPIO_5:
+      config <<= 15;
+      blank <<= 15;
+      break;
+    case GPIO_6:
+      config <<= 18;
+      blank <<= 18;
+      break;
+    case GPIO_7:
+      config <<= 21;
+      blank <<= 21;
+      break;
+    case GPIO_8:
+      config <<= 24;
+      blank <<= 24;
+      break;
+    case GPIO_9:
+      config <<= 27;
+      blank <<= 27;
+      break;
   }
 
   // get the current config, and layer in the change for the
