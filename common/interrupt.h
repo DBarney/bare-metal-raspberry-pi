@@ -23,8 +23,8 @@ typedef unsigned long long INT;
 //inturrupts for handling the timer
 #define IRQ_TIMER ((INT)(1))
 
-// init the interrupt system
-void interrupt_init();
+// start the interrupt system
+void interrupt_start();
 
 //enable/disable specific sets of inturrupts
 void interrupt_enable(INT interrupt);
@@ -35,5 +35,6 @@ void interrupt_set_timer_handler(handler timer);
 
 //get the interrupt status
 unsigned int interrupt_get_status();
+void c_irq_handler();
 
 #endif

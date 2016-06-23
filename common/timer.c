@@ -21,6 +21,7 @@ handler compare_fun1 = NOOP;
 handler compare_fun2 = NOOP;
 handler compare_fun3 = NOOP;
 
+// this doesn't appear to work like I expected it to.
 unsigned int enable_timer(unsigned int address, int after)
 {
   unsigned int at = GET32(TIMER_COUNTER_0) + after;

@@ -10,9 +10,10 @@
 #define TIMER_NANOSECOND (TIMER_MILLISECOND/1000)
 
 // set a function to call when after has passed, returns when the timer should fire
-unsigned int timer_enable_0(handler func, int after);
+// NOTE timer_0 and timer_2 are used by the GPU and cannot be used here
+// unsigned int timer_enable_0(handler func, int after);
 unsigned int timer_enable_1(handler func, int after);
-unsigned int timer_enable_2(handler func, int after);
+// unsigned int timer_enable_2(handler func, int after);
 unsigned int timer_enable_3(handler func, int after);
 
 // checks and calls all timers that have fired

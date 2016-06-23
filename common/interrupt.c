@@ -35,19 +35,28 @@ handler timerHandler = NOOP;
 
 void interrupt_enable(INT interrupt)
 {
-    PUT32(IRQ_ENABLE_BASIC, interrupt & 0xffff);
+    PUT32(IRQ_ENABLE_1, 0x2);
     // PUT32(IRQ_ENABLE_2, interrupt >> 32);
 }
 
 void interrupt_disable(INT interrupt)
 {
-  PUT32(IRQ_ENABLE_BASIC, interrupt & 0xffff);
+  PUT32(IRQ_ENABLE_1, 0x2);
   // PUT32(IRQ_DISABLE_2, interrupt >> 32);
 }
 
 void interrupt_set_timer_handler(handler timer)
 {
   timerHandler = timer;
+}
+
+void interrupt_start()
+{
+  __asm__(
+    "mrs r0,cpsr\n"
+    "bic r0,r0,#0x80\n"
+    "msr cpsr_c,r0\n"
+  );
 }
 
 unsigned int interrupt_get_status()
@@ -57,8 +66,11 @@ unsigned int interrupt_get_status()
 
 void c_irq_handler()
 {
-  int fired = GET32(IRQ_BASIC);
-  if (fired & IRQ_TIMER) {
+  int fired = GET32(IRQ_1);
+  int clear = 0;
+  if (fired & 0x2) {
     timerHandler();
+    clear |= 0x2;
   }
+  PUT32(IRQ_BASIC, clear);
 }
